@@ -1,0 +1,6 @@
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { Footer, SiteHeader } from '@/components/layout/site-header';
+import { demoEnabled } from '@/lib/demo';
+export const dynamic = 'force-dynamic';
+export default function Registration() { return <><SiteHeader/><main id="contenido-principal" className="narrow-page"><span className="eyebrow">TU RECORRIDO EN LAWWare</span><h1>Comencemos<br/><em>con claridad.</em></h1><p>Antes de formar parte de LawWare, podrás conocer el aviso de privacidad y tomar decisiones informadas.</p><div className="access-card"><h2>Un proceso paso a paso</h2><ol className="steps-list"><li>Conocer el aviso de privacidad vigente.</li><li>Revisar y decidir sobre cada finalidad.</li><li>Autenticarte y consultar el estado de tu cuenta.</li><li>Recibir la confirmación del backend.</li></ol><p className="help">El registro real aún no está disponible. Las decisiones y la vinculación requieren contratos y servicios pendientes.</p>{demoEnabled() ? <Link href="/demo/registro/aviso" className="button button-primary">Ver recorrido de demostración <ArrowRight size={17}/></Link> : <button className="button button-dark" disabled>Registro no disponible aún</button>}</div><Link href="/acceso" className="inline-link">Ya tengo una cuenta</Link></main><Footer/></>; }

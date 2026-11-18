@@ -1,0 +1,7 @@
+import Link from 'next/link';
+import { ArrowRight, LockKeyhole } from 'lucide-react';
+import { Footer, SiteHeader } from '@/components/layout/site-header';
+import { authConfigured } from '@/lib/auth/auth0';
+import { demoEnabled } from '@/lib/demo';
+export const dynamic = 'force-dynamic';
+export default function Access() { const ready = authConfigured(), demo = demoEnabled(); return <><SiteHeader/><main id="contenido-principal" className="narrow-page"><span className="eyebrow">BIENVENIDO DE NUEVO</span><h1>Tu espacio para<br/><em>seguir aprendiendo.</em></h1><p>Accede de manera segura con el proveedor de identidad de LawWare.</p><div className="access-card"><div className="feature-icon mint"><LockKeyhole/></div><h2>Iniciar sesión</h2><p>La autenticación se realizará con Auth0. LawWare no solicita ni almacena tu contraseña aquí.</p>{ready ? <a className="button button-primary" href="/auth/login?returnTo=/dashboard">Continuar con Auth0 <ArrowRight size={17}/></a> : <><button className="button button-dark" disabled>Acceso no configurado</button><p className="help">La conexión real de identidad aún no está configurada ni validada.</p></>}{demo && <Link className="text-link" href="/demo/estudiante/dashboard">Explorar la demostración <ArrowRight size={16}/></Link>}</div><p>¿Primera vez aquí? <Link className="inline-link" href="/registro">Conoce el proceso de registro</Link></p></main><Footer/></>; }

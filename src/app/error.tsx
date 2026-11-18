@@ -1,0 +1,2 @@
+'use client';
+export default function ErrorPage({ reset }: { error: Error & { digest?: string }; reset: () => void }) { return <main id="contenido-principal" className="narrow-page"><span className="eyebrow">ALGO SALIÓ MAL</span><h1>No pudimos mostrar esta página.</h1><p role="alert">Intenta cargarla de nuevo. Esto no confirma ni repite operaciones de registro o consentimiento.</p><button className="button button-primary" onClick={reset}>Reintentar la página</button></main>; }

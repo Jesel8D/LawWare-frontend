@@ -1,0 +1,11 @@
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { BackendError, getHealth, getIdentity } from '@/lib/api/backend';
+const original = process.env.LAWWARE_BACKEND_URL;
+afterEach(() => { process.env.LAWWARE_BACKEND_URL = original; vi.unstubAllGlobals(); });
+describe('cliente del backend', () => {
+  it('valida la respuesta exacta de salud', async () => { process.env.LAWWARE_BACKEND_URL = 'http://127.0.0.1:3001'; vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ status:'ok' }), { status:200 }))); await expect(getHealth()).resolves.toEqual({ status:'ok' }); });
+  it('envía el token al backend sin seguir redirecciones y valida la identidad sin devolverlo', async () => { process.env.LAWWARE_BACKEND_URL = 'http://127.0.0.1:3001'; const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ id_usuario:'1b69ca3f-6847-49ca-9e68-9999cf6bff5e', estado:'ACTIVO' }), { status:200 })); vi.stubGlobal('fetch', fetcher); const result = await getIdentity('token-sintetico'); expect(result.estado).toBe('ACTIVO'); expect(result).not.toHaveProperty('token'); expect(fetcher.mock.calls[0][1].headers.Authorization).toBe('Bearer token-sintetico'); expect(fetcher.mock.calls[0][1].redirect).toBe('error'); });
+  it('rechaza una respuesta de identidad que no cumple el contrato', async () => { process.env.LAWWARE_BACKEND_URL = 'http://127.0.0.1:3001'; vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ estado:'ACTIVO' }), { status:200 }))); await expect(getIdentity('test')).rejects.toMatchObject({ status:502, code:'INVALID_BACKEND_RESPONSE' }); });
+  it('propaga un 403 sin convertirlo en invitación a registrarse', async () => { process.env.LAWWARE_BACKEND_URL = 'http://127.0.0.1:3001'; vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('{}', { status:403 }))); await expect(getIdentity('test')).rejects.toMatchObject({ status:403 }); });
+  it('no expone el error de red', async () => { process.env.LAWWARE_BACKEND_URL = 'http://127.0.0.1:3001'; vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('secreto hipotético'))); await expect(getHealth()).rejects.toEqual(new BackendError(503, 'BACKEND_UNAVAILABLE')); });
+});

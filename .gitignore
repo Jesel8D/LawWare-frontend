@@ -6,6 +6,10 @@
 !.env.example
 node_modules/
 .next/
+*.tsbuildinfo
+next-env.d.ts
+playwright-report/
+test-results/
 out/
 coverage/
 *.log

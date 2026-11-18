@@ -1,0 +1,1 @@
+export default function Loading() { return <main id="contenido-principal" className="narrow-page"><div role="status" className="loading-state"><span className="spinner" aria-hidden="true"/> Cargando la página…</div></main>; }

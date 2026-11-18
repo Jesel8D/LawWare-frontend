@@ -6,4 +6,8 @@
 4. Permitir solicitar una revocación parcial que identifique la autorización original. Mostrar su resultado confirmado por backend.
 5. Resolver estados de carga y error sin exponer secretos ni afirmar que una operación fallida fue confirmada.
 
-La representación visual, el texto legal, la accesibilidad y los contratos de API aún deben definirse y verificarse. Este documento no implementa ni aprueba el flujo.
+## Estado de esta fase
+
+El recorrido `/demo/registro/aviso` está **implementado con datos sintéticos**, solo en desarrollo. El aviso y las finalidades son ejemplos explícitamente no aprobados. La opción opcional inicia sin decisión; elegir aceptar o rechazar permite una revisión temporal en memoria, pero el botón de guardar está deshabilitado. Continuar a vinculación no registra ni confirma nada. Mostrar la página no evidencia una presentación persistida.
+
+La lectura autorizada de un aviso configurado está implementada experimentalmente, sujeta al SQL propuesto no aprobado; mostrarlo no registra presentación. El registro de presentación, decisiones, vinculación, consulta de estados distintos de ACTIVO, historial, revocación y confirmación transaccional siguen sin endpoint implementado. El contenido legal, finalidades y reglas requieren aprobación. No se puede inferir registro pendiente de un 401 o 403. Consulte [contratos](api/CONTRATOS.md) y [decisiones generales](https://github.com/Jesel8D/LawWare-context/blob/main/decisions/DECISIONES_PENDIENTES.md).
